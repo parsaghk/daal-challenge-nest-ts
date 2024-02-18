@@ -1,0 +1,15 @@
+services:
+  identity:
+    build:
+      context: .
+      dockerfile: ./apps/identity/Dockerfile
+      target: development
+    command: pnpm start:dev identity
+    ports:
+      - '3000:3000'
+    env_file:
+      - ./apps/identity/.env
+    volumes:
+      - '.:/usr/src/app'
+  mongo:
+    image: mongo
