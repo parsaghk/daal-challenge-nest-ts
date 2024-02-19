@@ -49,7 +49,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   }
 
   async findOneOrFail(filter: FilterQuery<TDocument>): Promise<TDocument> {
-    const document = await this._model.find(filter, {}).lean<TDocument>();
+    const document = await this._model.findOne(filter, {}).lean<TDocument>();
     if (!document) {
       throw new NotFoundException();
     }

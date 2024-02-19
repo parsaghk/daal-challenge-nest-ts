@@ -11,5 +11,19 @@ services:
       - ./apps/identity/.env
     volumes:
       - '.:/usr/src/app'
+  payments:
+    build:
+      context: .
+      dockerfile: ./apps/payments/Dockerfile
+      target: development
+    command: pnpm start:dev payments
+    ports:
+      - '3001:3001'
+    env_file:
+      - ./apps/payments/.env
+    volumes:
+      - '.:/usr/src/app'
   mongo:
     image: mongo
+    ports:
+      - '27017:27017'
