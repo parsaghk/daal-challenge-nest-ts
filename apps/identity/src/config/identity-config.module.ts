@@ -16,9 +16,8 @@ import { IdentityConfigService } from './identity-config.service';
         return z
           .object({
             MONGODB_URI: z.string(),
+            RABBITMQ_URI: z.string(),
             HTTP_PORT: z.preprocess((v) => Number(v), z.number()),
-            TCP_PORT: z.preprocess((v) => Number(v), z.number()),
-            TCP_HOST: z.string(),
           })
           .parse(config);
       },

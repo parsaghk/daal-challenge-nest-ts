@@ -6,7 +6,7 @@ import { TransactionDocument, TransactionSchema } from './entities';
 import { TransactionsRepository } from './transactions.repository';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PaymentsConfigService, PaymentsConfigModule } from '../../config';
-import { IDENTITY_SERVICE } from '@app/common';
+import { IDENTITY_QUEUE, IDENTITY_SERVICE } from '@app/common';
 
 @Module({
   imports: [
@@ -18,12 +18,12 @@ import { IDENTITY_SERVICE } from '@app/common';
         imports: [PaymentsConfigModule],
         inject: [PaymentsConfigService],
         name: IDENTITY_SERVICE,
-        useFactory: (transactionsConfigService: PaymentsConfigService) => {
+        useFactory: (paymentsConfigService: PaymentsConfigService) => {
           return {
-            transport: Transport.TCP,
+            transport: Transport.RMQ,
             options: {
-              host: transactionsConfigService.identityHost,
-              port: transactionsConfigService.identityPort,
+              urls: [paymentsConfigService.rabbitmqUri],
+              queue: IDENTITY_QUEUE,
             },
           };
         },

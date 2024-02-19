@@ -3,15 +3,16 @@ import { IdentityModule } from './identity.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { IdentityConfigService } from './config';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { IDENTITY_QUEUE } from '@app/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(IdentityModule);
   const identityConfigService = app.get(IdentityConfigService);
   app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.TCP,
+    transport: Transport.RMQ,
     options: {
-      host: identityConfigService.tcpHost,
-      port: identityConfigService.tcpPort,
+      urls: [identityConfigService.rabbitmqUri],
+      queue: IDENTITY_QUEUE,
     },
   });
   const config = new DocumentBuilder()

@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionRequestDto } from './dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Transactions')
 @Controller()
@@ -10,6 +10,7 @@ export class TransactionsController {
     private readonly _transactionsService: TransactionsService,
   ) {}
 
+  @ApiOperation({ summary: 'Create transaction' })
   @Post('money')
   createTransaction(
     @Body() createTransactionRequestDto: CreateTransactionRequestDto,

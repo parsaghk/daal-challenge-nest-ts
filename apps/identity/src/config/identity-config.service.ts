@@ -20,4 +20,8 @@ export class IdentityConfigService {
   get tcpHost(): string {
     return this._configService.getOrThrow<string>('identity.tcpHost');
   }
+
+  get rabbitmqUri(): string {
+    return this._configService.getOrThrow<string>('identity.rabbitmqUri');
+  }
 }

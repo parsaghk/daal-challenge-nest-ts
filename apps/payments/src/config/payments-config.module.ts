@@ -17,10 +17,7 @@ import { PaymentsConfigService } from './payments-config.service';
           .object({
             MONGODB_URI: z.string(),
             HTTP_PORT: z.preprocess((v) => Number(v), z.number()),
-            TCP_PORT: z.preprocess((v) => Number(v), z.number()),
-            TCP_HOST: z.string(),
-            IDENTITY_PORT: z.preprocess((v) => Number(v), z.number()),
-            IDENTITY_HOST: z.string(),
+            RABBITMQ_URI: z.string(),
           })
           .parse(config);
       },

@@ -5,4 +5,5 @@ export const identityConfiguration = registerAs('identity', () => ({
   httpPort: Number(process.env.HTTP_PORT),
   tcpPort: Number(process.env.TCP_PORT),
   tcpHost: process.env.TCP_HOST,
+  rabbitmqUri: process.env.RABBITMQ_URI,
 }));
