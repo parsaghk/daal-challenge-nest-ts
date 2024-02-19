@@ -1,13 +1,13 @@
 import { TypeSafeModel } from '@app/common';
 import { z } from 'zod';
 
-export class CreatePaymentResponseDto extends TypeSafeModel {
+export class CreateTransactionResponseDto extends TypeSafeModel {
   public referenceId: string;
 
   constructor({ referenceId }: { referenceId: string }) {
     super();
     this.referenceId = referenceId;
-    CreatePaymentResponseDto.constructorValidator().parse(this);
+    CreateTransactionResponseDto.constructorValidator().parse(this);
   }
 
   public static constructorValidator() {

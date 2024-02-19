@@ -1,6 +1,9 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { CreatePaymentRequestDto, CreatePaymentResponseDto } from './dto';
-import { PaymentsRepository } from './payments.repository';
+import {
+  CreateTransactionRequestDto,
+  CreateTransactionResponseDto,
+} from './dto';
+import { TransactionsRepository } from './transactions.repository';
 import { Types } from 'mongoose';
 import {
   ChangeBalanceRequestDto,
@@ -12,33 +15,33 @@ import { lastValueFrom, map, Observable, tap } from 'rxjs';
 import * as Crypto from 'node:crypto';
 
 @Injectable()
-export class PaymentsService {
+export class TransactionsService {
   public constructor(
-    private readonly _paymentsRepository: PaymentsRepository,
+    private readonly _transactionsRepository: TransactionsRepository,
     @Inject(IDENTITY_SERVICE) private readonly _client: ClientProxy,
   ) {}
 
-  public async createPayment(
-    createPaymentRequestDto: CreatePaymentRequestDto,
-  ): Promise<CreatePaymentResponseDto> {
+  public async createTransaction(
+    createTransactionRequestDto: CreateTransactionRequestDto,
+  ): Promise<CreateTransactionResponseDto> {
     const changeBalanceResponseDto = await lastValueFrom(
       this._client.send<ChangeBalanceResponseDto, ChangeBalanceRequestDto>(
         'change-balance',
         new ChangeBalanceRequestDto({
-          amount: createPaymentRequestDto.amount,
-          userId: createPaymentRequestDto.userId,
+          amount: createTransactionRequestDto.amount,
+          userId: createTransactionRequestDto.userId,
         }),
       ),
     ).catch((err: RpcException) => {
       throw new BadRequestException(err.message);
     });
-    const payment = await this._paymentsRepository.create({
-      amount: createPaymentRequestDto.amount,
+    const transaction = await this._transactionsRepository.create({
+      amount: createTransactionRequestDto.amount,
       userId: new Types.ObjectId(changeBalanceResponseDto.userId),
       referenceId: Crypto.randomUUID(),
     });
-    return new CreatePaymentResponseDto({
-      referenceId: payment.referenceId,
+    return new CreateTransactionResponseDto({
+      referenceId: transaction.referenceId,
     });
   }
 }

@@ -2,7 +2,7 @@ import { AbstractRequestDto, TJSON } from '@app/common';
 import { z } from 'zod';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreatePaymentRequestDto extends AbstractRequestDto {
+export class CreateTransactionRequestDto extends AbstractRequestDto {
   @ApiProperty()
   public userId: string;
   @ApiProperty()
@@ -21,8 +21,8 @@ export class CreatePaymentRequestDto extends AbstractRequestDto {
     });
   }
 
-  public static fromJSON(json: TJSON): CreatePaymentRequestDto {
+  public static fromJSON(json: TJSON): CreateTransactionRequestDto {
     const validJSON = this.constructorValidator().parse(json);
-    return new CreatePaymentRequestDto(validJSON);
+    return new CreateTransactionRequestDto(validJSON);
   }
 }

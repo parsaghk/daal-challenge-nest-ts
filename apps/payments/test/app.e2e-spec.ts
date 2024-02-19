@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { PaymentsModule } from './../src/payments.module';
 
-describe('PaymentsController (e2e)', () => {
+describe('TransactionsController (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {
