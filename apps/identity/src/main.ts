@@ -5,7 +5,6 @@ import { IdentityConfigService } from './config';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  console.log('here');
   const app = await NestFactory.create(IdentityModule);
   const identityConfigService = app.get(IdentityConfigService);
   app.connectMicroservice<MicroserviceOptions>({
@@ -22,6 +21,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
+  await app.startAllMicroservices();
   await app.listen(identityConfigService.httpPort);
 }
 
